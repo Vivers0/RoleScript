@@ -1,0 +1,14 @@
+{
+  "name": "role",
+  "version": "1.0.0",
+  "description": "bot for add role for users",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index"
+  },
+  "author": "vivers",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  }
+}
