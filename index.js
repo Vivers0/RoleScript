@@ -13,7 +13,13 @@ const Discord = require("discord.js"),
 
 client.login(token);
 
+const acivities_list = ["Spark.org | The Star Revenge", "discord.gg/qhAq3x8"];
+
 client.on("ready", () => {
+  setInterval(() => {
+    let index = Math.floor(Math.random() * acivities_list.length);
+    client.user.setActivity(acivities_list[index], { type: "WATCHING" });
+  }, 7000);
   console.log("Ready!");
 });
 
