@@ -129,9 +129,10 @@ client.on('message', async message => {
       message.channel.fetchMessage(message.member.lastMessageID).then(msg => msg.delete(3000));
       message.channel.send(new Discord.RichEmbed().setDescription(`<@${message.author.id}> Успешно! С вас сняты все роли!`).setColor("#FFA500").setFooter("Spark.org | The Star Revenge").setTimestamp())//.then(msg => msg.delete(3000));
       client.channels.get(channel_set).send(new Discord.RichEmbed().setDescription(`<@${message.author.id}> Успешно! С вас сняты все роли!`).setColor("#FFA500").setFooter("Spark.org | The Star Revenge").setTimestamp());
-    
-      console.log(e)
+  }
 
+  if(cmd === prefix + 'die') {
+    process.exit()
   }
 })
 

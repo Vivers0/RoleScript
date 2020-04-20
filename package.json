@@ -4,7 +4,7 @@
   "description": "bot for add role for users",
   "main": "index.js",
   "scripts": {
-    "test": "node index"
+    "start": "node index"
   },
   "author": "vivers",
   "license": "ISC",
