@@ -1,5 +1,5 @@
-const Discord = require("discord.js"),
-  client = new Discord.Client(),
+const { Client } = require("discord.js"),
+  client = new Client(),
   config = require("./config.json"),
   prefix = config.prefix,
   token = config.token,
@@ -124,16 +124,14 @@ client.on('message', async message => {
   }
 
   if(cmd === prefix + 'out') {
-    
-    try {
       await message.guild.member(message.author).removeRoles(message.guild.member(message.author).roles);
-      await message.guild.member(message.author).addRole(message.guild.roles.find(r => r.name === "Участник The Star Revenge"));
+      await message.guild.member(message.author).addRole(message.guild.roles.get("655467785605873731"));
       message.channel.fetchMessage(message.member.lastMessageID).then(msg => msg.delete(3000));
       message.channel.send(new Discord.RichEmbed().setDescription(`<@${message.author.id}> Успешно! С вас сняты все роли!`).setColor("#FFA500").setFooter("Spark.org | The Star Revenge").setTimestamp())//.then(msg => msg.delete(3000));
       client.channels.get(channel_set).send(new Discord.RichEmbed().setDescription(`<@${message.author.id}> Успешно! С вас сняты все роли!`).setColor("#FFA500").setFooter("Spark.org | The Star Revenge").setTimestamp());
-    } catch(e) {
+    
       console.log(e)
-    }
+
   }
 })
 
