@@ -1,5 +1,5 @@
-const { Client } = require("discord.js"),
-  client = new Client(),
+const Discord = require("discord.js"),
+  client = new Discord.Client(),
   config = require("./config.json"),
   prefix = config.prefix,
   token = config.token,
@@ -12,6 +12,7 @@ const { Client } = require("discord.js"),
   };
 
 client.login(token);
+
 
 let array = {};
 let lib = {};
@@ -92,6 +93,25 @@ client.on('message', async message => {
     if (nick.includes("Guard")) {
       arr.push(message.guild.roles.find(r => r.name === "Гвардия").id)
     }
+    // Next
+    if (nick.includes("Omega")) {
+      arr.push(message.guild.roles.find(r => r.name === "RC Omega").id)
+    }
+    if (nick.includes("Delta")) {
+      arr.push(message.guild.roles.find(r => r.name === "RC Delta").id)
+    }
+    if (nick.includes("501th")) {
+      arr.push(message.guild.roles.find(r => r.name === "501-ый легион").id)
+    }
+    if (nick.includes("ARC")) {
+      arr.push(message.guild.roles.find(r => r.name === "ARC").id)
+    }
+    if (nick.includes("Null")) {
+      arr.push(message.guild.roles.find(r => r.name === "ARC Null-class").id)
+    }
+    if (nick.includes("COM")) {
+      arr.push(message.guild.roles.find(r => r.name === "Гвардейский Комиссариат").id)
+    }
 
     lib[message.author.id] = {
       role: arr
@@ -125,7 +145,7 @@ client.on('message', async message => {
 
   if(cmd === prefix + 'out') {
       await message.guild.member(message.author).removeRoles(message.guild.member(message.author).roles);
-      await message.guild.member(message.author).addRole(message.guild.roles.get("655467785605873731"));
+      await message.guild.member(message.author).addRole(message.guild.roles.get("675420554752426005"));
       message.channel.fetchMessage(message.member.lastMessageID).then(msg => msg.delete(3000));
       message.channel.send(new Discord.RichEmbed().setDescription(`<@${message.author.id}> Успешно! С вас сняты все роли!`).setColor("#FFA500").setFooter("Spark.org | The Star Revenge").setTimestamp())//.then(msg => msg.delete(3000));
       client.channels.get(channel_set).send(new Discord.RichEmbed().setDescription(`<@${message.author.id}> Успешно! С вас сняты все роли!`).setColor("#FFA500").setFooter("Spark.org | The Star Revenge").setTimestamp());
