@@ -1,3 +1,4 @@
 # RoleScript
-
-[![Build Status](https://travis-ci.com/Vivers0/RoleScript.svg?branch=master)](https://travis-ci.com/Vivers0/RoleScript)
+## RU
+### Возможности
+Возможности данного скрипта позволят вам выдавать роли пользователю на вашем сервере через проверку

@@ -1,15 +1,36 @@
 {
-  "name": "role",
-  "version": "1.0.2",
-  "description": "bot for add role for users",
-  "main": "index.js",
+  "name": "rolescript",
+  "version": "2.0.0",
+  "description": "Script for give user roles (Discord) ",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index && exit 0"
+    "lint": "./node_modules/.bin/eslint ./src/",
+    "lint-fix": "./node_modules/.bin/eslint --fix ./src/ && npm run lint",
+    "start": "node src/index.js"
   },
-  "author": "vivers",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vivers0/RoleScript.git"
+  },
+  "keywords": [
+    "role",
+    "discord",
+    "discord.js",
+    "rolescript"
+  ],
+  "author": "Vivers <https://github.com/Vivers0>",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vivers0/RoleScript/issues"
+  },
+  "homepage": "https://github.com/Vivers0/RoleScript#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.7.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0"
+  },
   "dependencies": {
-    "discord.js": "^11.5.1",
-    "moment": "^2.24.0"
+    "discord.js": "^12.3.1"
   }
 }
