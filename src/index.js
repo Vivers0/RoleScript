@@ -1,11 +1,13 @@
 const { Client, MessageEmbed } = require('discord.js');
 const client = new Client();
 const { prefix, token, channelGet, channelSet } = require('./cfg/config.json');
-const rolesList = require('./cfg/roles.json');
+const listOfRoles = require('./cfg/roles.json');
 
 client.on('ready', () => console.log('READY!'));
-const lib = {};
-const list = {};
+
+const listOfMembersRoles = {};
+const infoAboutMembers = {};
+
 client.on('message', (message) => {
   const cmd = message.content.split(' ')[0];
 
@@ -27,15 +29,15 @@ client.on('messageReactionAdd', (reaction, user) => {
 
 async function getRoleArray(nick, message) {
   const arrayWithRole = [];
-  Object.keys(rolesList).forEach((role) => {
-    for (let i = 0; i <= rolesList[role].length; i += 1) {
-      if (nick.includes(rolesList[role][i])) {
+  Object.keys(listOfRoles).forEach((role) => {
+    for (let i = 0; i <= listOfRoles[role].length; i += 1) {
+      if (nick.includes(listOfRoles[role][i])) {
         arrayWithRole.push(message.guild.roles.cache.get(String(role)));
       }
     }
   });
 
-  lib[message.author.id] = {
+  listOfMembersRoles[message.author.id] = {
     role: arrayWithRole,
   };
   createEmbed(message);
@@ -47,7 +49,7 @@ function createEmbed(message) {
     .setThumbnail(message.author.avatarURL)
     .addField('Аккаунт:', `<@${message.author.id}>`, true)
     .addField('Ник:', message.author.username, true)
-    .addField('Роль:', lib[message.author.id].role.map((item) => item), true)
+    .addField('Роль:', listOfMembersRoles[message.author.id].role.map((item) => item), true)
     .addField('Отправлено с канала', `<#${message.channel.id}>`)
     .addField('Команды:', 'Выдать роль - [✅]\nОтказать - [🛑]\nУдалить - [🇩]', true)
     .setColor('GREEN')
@@ -59,7 +61,7 @@ function createEmbed(message) {
       await msg.react('✅');
       await msg.react('❌');
       await msg.react('🇩');
-      list[msg.id] = {
+      infoAboutMembers[msg.id] = {
         author: message.author.id,
         userID: msg.author.id,
         channel: msg.channel,
@@ -76,39 +78,39 @@ async function getEmojiName(reaction, user) {
   const emoji = reaction.emoji.name;
   const messageID = reaction.message.id;
 
-  if (!list[messageID] || user.bot) return;
+  if (!infoAboutMembers[messageID] || user.bot) return;
 
   if (emoji === '✅') {
     // eslint-disable-next-line max-len
-    const member = reaction.message.guild.members.cache.find((u) => u.id === list[messageID].author);
-    await member.roles.add(lib[member.id].role);
+    const member = reaction.message.guild.members.cache.find((u) => u.id === infoAboutMembers[messageID].author);
+    await member.roles.add(listOfMembersRoles[member.id].role);
 
-    list[messageID].channel.send(new MessageEmbed().setAuthor('Успешно!').setDescription(`[ACCEPT] ${user} одобрил запрос пользователю ${member} | ID: ${member.id}`).setColor('GREEN')
+    infoAboutMembers[messageID].channel.send(new MessageEmbed().setAuthor('Успешно!').setDescription(`[ACCEPT] ${user} одобрил запрос пользователю ${member} | ID: ${member.id}`).setColor('GREEN')
       .setTimestamp()
       .setFooter('The Star Revenge'));
-    list[messageID].msg.delete({ timeout: 0 });
-    list[messageID].get.send(new MessageEmbed().setAuthor('Успешно!').setDescription(`[ACCEPT] ${user} одобрил запрос пользователю ${member} | ID: ${member.id}`).setColor('GREEN')
+    infoAboutMembers[messageID].msg.delete({ timeout: 0 });
+    infoAboutMembers[messageID].get.send(new MessageEmbed().setAuthor('Успешно!').setDescription(`[ACCEPT] ${user} одобрил запрос пользователю ${member} | ID: ${member.id}`).setColor('GREEN')
       .setTimestamp()
       .setFooter('The Star Revenge'));
-    delete list[messageID];
+    delete infoAboutMembers[messageID];
   }
 
   if (emoji === '❌') {
     // eslint-disable-next-line max-len
-    const member = reaction.message.guild.members.cache.find((u) => u.id === list[messageID].author);
-    client.channels.cache.get(list[messageID].channelID).send(new MessageEmbed().setAuthor('Отмена!').setDescription(`[REFUSAL] ${user} отклонил запрос пользователю ${member} | ID: ${member.id}`).setColor('RED')
+    const member = reaction.message.guild.members.cache.find((u) => u.id === infoAboutMembers[messageID].author);
+    client.channels.cache.get(infoAboutMembers[messageID].channelID).send(new MessageEmbed().setAuthor('Отмена!').setDescription(`[REFUSAL] ${user} отклонил запрос пользователю ${member} | ID: ${member.id}`).setColor('RED')
       .setTimestamp()
       .setFooter('The Star Revenge'));
-    list[messageID].msg.delete({ timeout: 0 });
-    client.channels.cache.get(list[messageID].getID).send(new MessageEmbed().setAuthor('Отмена!').setDescription(`[REFUSAL] ${user} отклонил запрос пользователю ${member} | ID: ${member.id}`).setColor('RED')
+    infoAboutMembers[messageID].msg.delete({ timeout: 0 });
+    client.channels.cache.get(infoAboutMembers[messageID].getID).send(new MessageEmbed().setAuthor('Отмена!').setDescription(`[REFUSAL] ${user} отклонил запрос пользователю ${member} | ID: ${member.id}`).setColor('RED')
       .setTimestamp()
       .setFooter('The Star Revenge'));
-    delete list[messageID];
+    delete infoAboutMembers[messageID];
   }
 
   if (emoji === '🇩') {
-    list[messageID].msg.delete({ timeout: 0 });
-    delete list[messageID];
+    infoAboutMembers[messageID].msg.delete({ timeout: 0 });
+    delete infoAboutMembers[messageID];
   }
 }
 
